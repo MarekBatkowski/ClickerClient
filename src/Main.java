@@ -10,7 +10,6 @@ public class Main
         String addr;
         int portNumber;
         Socket socket;
-        boolean isInGame = false;
         Game game = null;
 
         if(args.length!=2)
@@ -34,7 +33,7 @@ public class Main
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                InThread inThread = new InThread(in, out, isInGame, game);
+                InThread inThread = new InThread(in, out, game);
                 inThread.start();
 
                 out.println("Hello server");

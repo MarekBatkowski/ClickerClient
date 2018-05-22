@@ -6,21 +6,19 @@ import java.net.SocketException;
 
 public class InThread extends Thread
 {
-    public InThread(BufferedReader in,PrintWriter out, boolean isInGame, Game game)
+    public InThread(BufferedReader in,PrintWriter out, Game game)
     {
         this.in = in;
         this.out = out;
-        this.isInGame = isInGame;
         this.game = game;
     }
 
-    PrintWriter out;
-    BufferedReader in;
-    boolean isInGame;
-    Game game;
-    JProgressBar progressBar;
+    private PrintWriter out;
+    private BufferedReader in;
+    private Game game;
 
-    String response;
+    private JProgressBar progressBar;
+    private String response;
 
     @Override
     public void run()
@@ -40,12 +38,13 @@ public class InThread extends Thread
             {
                 e.printStackTrace();
             }
-            if (response != null) {
+
+            if (response != null)
+            {
                 System.out.println(response);
 
                 if (response.contains("Added to game"))
                 {
-                    isInGame = true;
                     String[] command = response.split("\\s+");
                     String gameName = command[4];
                     game = new Game(in, out);
@@ -54,16 +53,22 @@ public class InThread extends Thread
                     progressBar = game.getProgressBar();
                 }
 
-                if(response.contains("Game state:") && isInGame)
+                if(response.contains("Game state:"))
                 {
                     String[] command = response.split("\\s+");
                     int state = Integer.parseInt(command[2]);
                     progressBar.setValue(state);
                 }
-                if(response.contains("Game over") && isInGame)
+
+                if(response.contains("Game over"))
                 {
-                    JOptionPane jop = new JOptionPane();
-                    jop.showMessageDialog(null, response, "Game over", JOptionPane.INFORMATION_MESSAGE);
+                    String endGameState = "";
+                    String[] resp = response.split("\\s+");
+                    for(int i=2; i<resp.length; i++)
+                        endGameState+=resp[i];
+
+                    JOptionPane GameOverWindow = new JOptionPane();
+                    GameOverWindow.showMessageDialog(null, endGameState, "Game over", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }

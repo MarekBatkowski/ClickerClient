@@ -1,18 +1,19 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
 public class Game
 {
     JFrame frame;
-    private JButton button1;
+    private JButton clickButton;
     private JProgressBar progressBar;
     private JPanel MainPanel;
+    private JButton exitGameButton;
     PrintWriter out;
     BufferedReader in;
-    String response;
 
     void setTitle(String newTitle)
     {
@@ -29,12 +30,10 @@ public class Game
         this.in = in;
         this.out = out;
         progressBar.setMinimum(0);
-        progressBar.setMaximum(200);
-        progressBar.setValue(100);
+        progressBar.setMaximum(100);
+        progressBar.setValue(50);
 
-
-
-        button1.addActionListener(new ActionListener()
+        clickButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
@@ -42,14 +41,23 @@ public class Game
                 out.println("click");
             }
         });
+
+        exitGameButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                out.println("quit game");
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
     }
 
     public void showGameWindow()
     {
         frame = new JFrame();
-        //frame.setContentPane(new Game().MainPanel);
         frame.setContentPane(this.MainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
