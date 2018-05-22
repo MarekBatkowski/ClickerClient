@@ -65,7 +65,7 @@ public class InThread extends Thread
                     String endGameState = "";
                     String[] resp = response.split("\\s+");
                     for(int i=2; i<resp.length; i++)
-                        endGameState+=resp[i];
+                        endGameState+=resp[i]+" ";
 
                     JOptionPane GameOverWindow = new JOptionPane();
                     GameOverWindow.showMessageDialog(null, endGameState, "Game over", JOptionPane.INFORMATION_MESSAGE);
