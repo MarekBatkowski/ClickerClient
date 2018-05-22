@@ -19,7 +19,7 @@ public class InThread extends Thread
 
     private JProgressBar progressBar;
     private String response;
-
+    
     @Override
     public void run()
     {
