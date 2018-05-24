@@ -23,6 +23,7 @@ public class InThread extends Thread
     @Override
     public void run()
     {
+        System.out.println("Input ready");
         while(true)
         {
             try
